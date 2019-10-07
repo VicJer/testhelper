@@ -1,0 +1,23 @@
+{
+  "name": "testhelper",
+  "version": "1.0.0",
+  "description": "Helper for testing observables",
+  "main": "testhelper.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VicJer/testhelper.git"
+  },
+  "author": "Vic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VicJer/testhelper/issues"
+  },
+  "homepage": "https://github.com/VicJer/testhelper#readme",
+  "devDependencies": {
+    "rxjs": "^6.5.3",
+    "typescript": "^3.6.3"
+  }
+}
