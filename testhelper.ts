@@ -2,9 +2,9 @@ import {Observable} from "rxjs";
 import {toArray} from "rxjs/operators";
 
 export class TestBuilder<T> {
-    private _successCallback: () => void;
-    private _errorCallback: () => void;
-    private _completeCallback: () => void;
+    private _successCallback: () => any;
+    private _errorCallback: () => any;
+    private _completeCallback: () => any;
     private _successAssertions: any[];
     private _errorAssertions: any[];
     private readonly _observable: Observable<T>;
