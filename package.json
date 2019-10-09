@@ -19,5 +19,9 @@
   "devDependencies": {
     "rxjs": "^6.5.3",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "jest": "^24.9.0",
+    "redux-observable": "^1.2.0"
   }
 }

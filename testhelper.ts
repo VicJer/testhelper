@@ -1,53 +1,91 @@
 import {Observable} from "rxjs";
 import {toArray} from "rxjs/operators";
 
-export class TestBuilder<T> {
-    private _successCallback: () => any;
-    private _errorCallback: () => any;
-    private _completeCallback: () => any;
-    private _successAssertions: any[];
-    private _errorAssertions: any[];
-    private readonly _observable: Observable<T>;
-
-    constructor(observableUnderTest: Observable<T>) {
+export class ObservableTestBuilder {
+    private readonly _observable: Observable<any>;
+    private readonly _epic: (
+        action$: any,
+        store: any,
+        { api }: { api: any }
+    ) => Observable<any>;
+    private readonly _done: any;
+    private _apiMock: any;
+    private _triggerAction: any;
+    private _store: any = null;
+    private _expected: (result: any) => void;
+    private _expectedException: (error: any) => void;
+    //@ts-ignore
+    constructor(observableUnderTest: Observable<any>, done: any) {
         this._observable = observableUnderTest;
+        this._done = done;
+    }
+    //@ts-ignore
+    constructor(epicUnderTest: (action$: any, store: any, { api }: { api: any }) => Observable<any>, done: any) {
+        this._epic = epicUnderTest;
+        this._done = done;
     }
 
-    addSuccessAssertions(assertionsArry:any[]){
-       this._successAssertions = assertionsArry;
-    }
-
-    addErrorAssertions(assertionsArry:any[]){
-        this._errorAssertions = assertionsArry;
-    }
-
-    succcess(successCb: any) {
-        this._successCallback = successCb;
+    addApiMock(apiMock: any) {
+        this._apiMock = apiMock;
         return this;
     }
-    error(errCb: any) {
-        this._errorCallback = errCb;
+    addStoreMock(store: any) {
+        this._store = store;
         return this;
     }
-    complete(completeCb: any) {
-        this._completeCallback = completeCb;
+    addTriggerAction(triggerAction: any) {
+        this._triggerAction = triggerAction;
         return this;
     }
-    private validate() {
-        if (!this._successCallback) { throw new Error(`Test helper requires success callback`); }
-        if (typeof this._successCallback !== 'function') { throw new Error(`Success callback has to be a function`); }
-        if (!this._errorCallback) { throw new Error(`Test helper requires error callback`); }
-        if (typeof this._errorCallback !== 'function') { throw new Error(`Error callback has to be a function`); }
-        if (!this._completeCallback) { throw new Error(`Test helper requires complete callback`); }
-        if (typeof this._completeCallback !== 'function') { throw new Error(`Complete callback has to be a function`); }
+    addExpectedOutputMethod(expectedOutput: any) {
+        this._expected = expectedOutput;
+        return this;
+    }
+    addExpectedExceptionMethod(expectedOutput: any) {
+        this._expectedException = expectedOutput;
+        return this;
     }
 
-    build() {
-        this.validate();
-        return this._observable.pipe(toArray()).subscribe({
-            next: this._successCallback,
-            error: this._errorCallback,
-            complete: this._completeCallback
-        })
+    private isEpicUnderTest() {
+        if (typeof this._expected !== "function")
+            throw new Error(
+                `Expected output method is required use addExpectedOutputMethod()`
+            );
+        if (typeof this._expectedException !== "function")
+            throw new Error(
+                `Expected exception method is required use addExpectedExceptionMethod()`
+            );
+
+        if (typeof this._epic === "function") {
+            if (!this._triggerAction)
+                throw new Error(
+                    `Epic requires a trigger action use addTriggerAction() to add one`
+                );
+            if (!this._apiMock)
+                throw new Error(`Epic requires mocked api use addApiMock() to add one`);
+            return true;
+        }
+    }
+    private getObservableUnderTest() {
+        return this.isEpicUnderTest()
+            ? this._epic(this._triggerAction, this._store, this._apiMock)
+            : this._observable;
+    }
+
+    testRunToCompletion() {
+        const sut = this.getObservableUnderTest();
+        return sut.pipe(toArray()).subscribe({
+            next: this._expected,
+            error: this._expectedException,
+            complete: () => this._done()
+        });
+    }
+    testRunningObservable() {
+        const sut = this.getObservableUnderTest();
+        return sut.subscribe({
+            next: this._expected,
+            error: this._expectedException,
+            complete: () => this._done()
+        });
     }
 }
