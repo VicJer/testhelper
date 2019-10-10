@@ -1,6 +1,6 @@
 import {Observable, Subscription} from "rxjs";
 import {BaseObservableMethods} from "./BaseObservableMethods";
-import {toArray} from "rxjs/operators";
+import {take, toArray} from "rxjs/operators";
 export abstract class BaseObservableTester extends BaseObservableMethods{
     protected _observable: Observable<any>;
     protected _done: any;
@@ -29,8 +29,13 @@ export abstract class BaseObservableTester extends BaseObservableMethods{
         })
     }
 
-    testRunningObservable(): Subscription {
-        return this._observable.subscribe({
+    testRunningObservable(limit:number = 0): Subscription {
+        const s = this._observable;
+        let ret = s;
+        if(limit > 0){
+            ret = s.pipe(take(limit))
+        }
+        return ret.subscribe({
             next: this._successAssertions,
             error: (err)=>{
                 this._exceptionAssertions(err);

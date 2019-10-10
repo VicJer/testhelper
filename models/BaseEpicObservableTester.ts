@@ -1,7 +1,7 @@
 import {BaseObservableMethods} from "./BaseObservableMethods";
 import {Epic} from "./Epic";
 import {Subscription} from "rxjs";
-import {toArray} from "rxjs/operators";
+import {take, toArray} from "rxjs/operators";
 
 export abstract class BaseEpicObservableTester extends BaseObservableMethods{
     protected _epic: Epic;
@@ -38,8 +38,13 @@ export abstract class BaseEpicObservableTester extends BaseObservableMethods{
         })
     }
 
-    testRunningObservable(): Subscription {
-        return this._epic(this._triggerAction,this._store,this._apiMock).subscribe({
+    testRunningObservable(limit: number = 0): Subscription {
+        const s = this._epic(this._triggerAction,this._store,this._apiMock);
+        let ret = s;
+        if(limit > 0){
+            ret = s.pipe(take(limit))
+        }
+        return ret.subscribe({
             next: this._successAssertions,
             error: (err)=>{
                 this._exceptionAssertions(err);
