@@ -15,6 +15,6 @@ const observableTest = new ObservableTestBuilder()
     .withObservable(null)
     .withDone(null)
     .withExpectedExceptionAssertion(null)
-    .build()
+    .build();
 
 observableTest.testRunToCompletion();
