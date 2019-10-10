@@ -55,7 +55,7 @@ it(`FooBars the foo bar`, (done) => {
         expect(error).toEqual();
     }
     const observableTest = new ObservableTestBuilder()
-        .withObservable(myTestEpic)
+        .withObservable(myTestObservable)
         .withDone(done)
         .withExpectedOutputAssertion(expectedAssertions)
         .withExpectedExceptionAssertion(expectedErrorAssertions)
