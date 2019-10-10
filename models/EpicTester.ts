@@ -1,7 +1,7 @@
 import {Subscription} from "rxjs";
 import {toArray} from "rxjs/operators";
-import {BaseEpicObservableTester} from "./models/BaseEpicObservableTester";
-import {Epic} from "./models/Epic";
+import {BaseEpicObservableTester} from "./BaseEpicObservableTester";
+import {Epic} from "./Epic";
 
 export class EpicTester extends BaseEpicObservableTester{
     private _epic: Epic;
