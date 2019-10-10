@@ -27,7 +27,7 @@ it(`FooBars the foo bar`, (done) => {
     epicTest.testRunToCompletion();
 });
 ```
-`withEpic, withDone, withTriggerAction` - are required and at least one of the `withExpectedOutputAssertion` or `withExpectedExceptionAssertion` is required depending if you are asserting error or success. 
+`withEpic, withDone, withTriggerAction` - are required and at least one of the `withExpectedOutputAssertion` or `withExpectedExceptionAssertion` is required depending if you are asserting error or success, use both if you are asserting both epic throwing errors and emitting values. 
 
 `withApi, withStore` are optional as not every epic require API or Store mocks.
 
