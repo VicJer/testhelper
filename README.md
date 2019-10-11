@@ -67,4 +67,5 @@ it(`FooBars the foo bar`, (done) => {
 Pretty much the same rules apply just how much mocking you need to pass is reduced.
 
 Happy testing
+
 !["happy testing"](https://media.giphy.com/media/i5RWkVZzVScmY/200w.gif)
