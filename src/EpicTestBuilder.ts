@@ -1,6 +1,6 @@
 import {Observable} from "rxjs";
-import {BaseEpicTestBuilder} from "./models/BaseEpicTestBuilder";
-import {EpicTester} from "./models/EpicTester";
+import {BaseEpicTestBuilder} from "../models/BaseEpicTestBuilder";
+import {EpicTester} from "../models/EpicTester";
 
 export class EpicTestBuilder extends BaseEpicTestBuilder<EpicTester,EpicTestBuilder>{
     protected createTester(): EpicTester {

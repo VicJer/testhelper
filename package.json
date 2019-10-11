@@ -17,11 +17,17 @@
   },
   "homepage": "https://github.com/VicJer/testhelper#readme",
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/jest": "^24.0.18",
+    "@types/mocha": "^5.2.7",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "rxjs": "^6.5.3",
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "jest": "^24.9.0",
     "redux-observable": "^1.2.0"
   }
 }

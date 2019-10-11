@@ -1,5 +1,5 @@
-import {BaseObservableTestBuilder} from "./models/BaseEpicTestBuilder";
-import {ObservableTester} from "./models/ObservableTester";
+import {BaseObservableTestBuilder} from "../models/BaseEpicTestBuilder";
+import {ObservableTester} from "../models/ObservableTester";
 import {Observable} from "rxjs";
 
 export class ObservableTestBuilder extends BaseObservableTestBuilder<ObservableTester,ObservableTestBuilder>{
