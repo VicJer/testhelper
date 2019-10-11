@@ -3,10 +3,6 @@ import {Epic} from "./Epic";
 import {BaseObservableTester} from "./BaseObservableTester";
 import {Observable} from "rxjs";
 
-export abstract class BaseTester {
-
-}
-
 export abstract class BaseEpicTestBuilder<T extends BaseEpicObservableTester, B extends BaseEpicTestBuilder<T,B>> {
     protected tester: T;
     protected abstract createTester():T

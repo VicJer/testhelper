@@ -21,8 +21,8 @@ export abstract class BaseEpicObservableTester extends BaseObservableMethods{
     validate(): void {
         if(typeof this._epic !== 'function') throw new Error("You haven't added any epic.");
         if(!this._triggerAction) throw new Error("You haven't added any trigger action");
-        if(!this._done) throw new Error("Reference to test case done callback is required");
-        if(typeof this._successAssertions !== "function" && typeof this._exceptionAssertions){
+        if(!this._done || typeof this._done !== "function") throw new Error("Reference to test case done callback is required");
+        if(typeof this._successAssertions !== "function" && typeof this._exceptionAssertions !== "function"){
             throw new Error("Assertion method or exception assertion method is required")
         }
     }

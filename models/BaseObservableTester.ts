@@ -12,8 +12,8 @@ export abstract class BaseObservableTester extends BaseObservableMethods{
 
     validate(): void {
         if(typeof this._observable !== 'object') throw new Error("You haven't added any observables.");
-        if(!this._done) throw new Error("Reference to test case done callback is required");
-        if(typeof this._successAssertions !== "function" && typeof this._exceptionAssertions){
+        if(!this._done || typeof this._done !== "function") throw new Error("Reference to test case done callback is required");
+        if(typeof this._successAssertions !== "function" && typeof this._exceptionAssertions !== "function"){
             throw new Error("Assertion method or exception assertion method is required")
         }
     }
