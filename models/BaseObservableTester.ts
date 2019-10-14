@@ -1,4 +1,4 @@
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, throwError} from "rxjs";
 import {BaseObservableMethods} from "./BaseObservableMethods";
 import {take, toArray} from "rxjs/operators";
 export abstract class BaseObservableTester extends BaseObservableMethods{
@@ -11,10 +11,10 @@ export abstract class BaseObservableTester extends BaseObservableMethods{
     abstract set addDone(done: any)
 
     validate(): void {
-        if(typeof this._observable !== 'object') throw new Error("You haven't added any observables.");
-        if(!this._done || typeof this._done !== "function") throw new Error("Reference to test case done callback is required");
+        if(typeof this._observable !== 'object') throw new Error("Test observable is missing add it using withObservable().");
+        if(!this._done || typeof this._done !== "function") throw new Error("Done reference is missing add it using withDone()");
         if(typeof this._successAssertions !== "function" && typeof this._exceptionAssertions !== "function"){
-            throw new Error("Assertion method or exception assertion method is required")
+            throw new Error("Assertion method or exception assertion method is required add it using withExpectedExceptionAssertion() or withExpectedOutputAssertion()")
         }
     }
 
@@ -22,7 +22,11 @@ export abstract class BaseObservableTester extends BaseObservableMethods{
         return this._observable.pipe(toArray()).subscribe({
             next: this._successAssertions,
             error: (err)=>{
-                this._exceptionAssertions(err);
+                if(typeof this._exceptionAssertions === "function"){
+                    this._exceptionAssertions(err);
+                }else{
+                    throw new Error(`Did not expect error yet ${err} was thrown`);
+                }
                 this._done();
             } ,
             complete:() => this._done()
@@ -38,8 +42,12 @@ export abstract class BaseObservableTester extends BaseObservableMethods{
         return ret.subscribe({
             next: this._successAssertions,
             error: (err)=>{
-                this._exceptionAssertions(err);
-                this._done();
+                if(typeof this._exceptionAssertions === "function"){
+                    this._exceptionAssertions(err);
+                    this._done();
+                }else{
+                    throw new Error(`Did not expect error yet ${err} was thrown`);
+                }
             } ,
             complete:() => this._done()
         })

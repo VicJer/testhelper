@@ -29,6 +29,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
     "redux-observable": "^1.2.0"
   }
 }
