@@ -31,7 +31,7 @@ it(`FooBars the foo bar`, (done) => {
 
 `withApi, withStore` are optional as not every epic require API or Store mocks.
 
-The resulting EpicTester have one method available `testRunToCompletion()` opposite to Observable tester which also has `testRunningObservable()`.
+The resulting EpicTester have one method available `testRunToCompletion()` opposite to ObservableTester which also has `testRunningObservable()`.
  
 `testRunningObservable()` is meant to test observables that don't complete. 
 
